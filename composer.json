@@ -1,5 +1,6 @@
 {
     "name": "sebaks/crud",
+    "type": "library",
     "authors": [
         {
             "name": "sebaks",
