@@ -7,10 +7,21 @@
             "email": "d.kirillof@gmail.com"
         }
     ],
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/t4web/base.git"
+        }
+    ],
     "require": {
         "php": ">=5.5",
         "zendframework/zend-mvc": "~2.5.0",
         "zendframework/zend-view": "~2.5.0",
         "t4web/base": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sebaks\\Crud\\": "src/"
+        }
     }
 }
