@@ -1,11 +1,11 @@
 {
     "name": "sebaks/crud",
+    "type": "library",
     "authors": [
         {
             "name": "sebaks",
             "email": "d.kirillof@gmail.com"
         }
     ],
-    "require": {},
-    "minimum-stability": "dev"
+    "require": {}
 }
