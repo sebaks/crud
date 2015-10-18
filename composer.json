@@ -21,7 +21,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Sebaks\\Crud\\": "src/"
+            "Sebaks\\Crud\\": "src/",
+            "Sebaks\\CrudTest\\": "test/"
         }
     }
 }

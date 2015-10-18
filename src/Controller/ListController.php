@@ -58,7 +58,7 @@ class ListController extends AbstractActionController
 
         $collection = $this->finder->findMany($query);
 
-        $this->viewModel->setMainCollection($collection);
+        $this->viewModel->setCollection($collection);
 
         return $this->viewModel;
     }

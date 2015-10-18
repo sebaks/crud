@@ -33,7 +33,6 @@ class UpdateController extends AbstractActionController
      */
     private $redirectTo;
 
-
     /**
      * @param $id
      * @param array $data
@@ -64,15 +63,15 @@ class UpdateController extends AbstractActionController
             }
 
             $this->viewModel->setInputData($this->updater->getValues());
-            $this->viewModel->setMainEntity($entity);
+            $this->viewModel->setEntity($entity);
         } else {
             if (!$entity) {
                 return $this->notFoundAction();
             }
 
             $this->viewModel->setErrors($this->updater->getErrors()->toArray());
-            $this->viewModel->setInputData($this->updater->getValues());
-            $this->viewModel->setMainEntity($entity);
+            $this->viewModel->setInputData($this->data);
+            $this->viewModel->setEntity($entity);
         }
 
         return $this->viewModel;

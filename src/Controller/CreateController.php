@@ -3,7 +3,6 @@
 namespace Sebaks\Crud\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
 use T4webBase\Domain\Service\NewCreate as Creator;
 use Sebaks\Crud\View\Model\CreateViewModel;
 
@@ -58,10 +57,10 @@ class CreateController extends AbstractActionController
             if ($this->redirectTo) {
                 return $this->redirect()->toRoute($this->redirectTo);
             }
-            $this->viewModel->setMainEntity($entity);
+            $this->viewModel->setEntity($entity);
         } else {
             $this->viewModel->setErrors($this->creator->getMessages());
-            $this->viewModel->setInputData($this->creator->getValues());
+            $this->viewModel->setInputData($this->data);
         }
 
         return $this->viewModel;

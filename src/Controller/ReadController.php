@@ -41,7 +41,7 @@ class ReadController extends AbstractActionController
             return $this->notFoundAction();
         }
 
-        $this->viewModel->setMainEntity($entity);
+        $this->viewModel->setEntity($entity);
 
         return $this->viewModel;
     }
