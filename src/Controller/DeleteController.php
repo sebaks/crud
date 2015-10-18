@@ -48,7 +48,6 @@ class DeleteController extends AbstractActionController
     public function indexAction()
     {
         $isSuccess = $this->deleter->delete($this->id);
-        $this->viewModel->setResult($isSuccess);
         $entity = $this->deleter->getEntity();
 
         if ($isSuccess) {
@@ -56,14 +55,14 @@ class DeleteController extends AbstractActionController
                 return $this->redirect()->toRoute($this->redirectTo);
             }
 
-            $this->viewModel->setMainEntity($entity);
+            $this->viewModel->setEntity($entity);
         } else {
             if (!$entity) {
                 return $this->notFoundAction();
             }
 
             $this->viewModel->setErrors($this->deleter->getErrors()->toArray());
-            $this->viewModel->setMainEntity($entity);
+            $this->viewModel->setEntity($entity);
         }
 
         return $this->viewModel;

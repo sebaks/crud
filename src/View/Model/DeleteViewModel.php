@@ -18,11 +18,6 @@ class DeleteViewModel extends ViewModel
     private $errors;
 
     /**
-     * @var bool
-     */
-    private $result;
-
-    /**
      * @return Entity
      */
     public function getEntity()
@@ -52,21 +47,5 @@ class DeleteViewModel extends ViewModel
     public function setErrors($errors)
     {
         $this->errors = $errors;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isResult()
-    {
-        return $this->result;
-    }
-
-    /**
-     * @param boolean $result
-     */
-    public function setResult($result)
-    {
-        $this->result = $result;
     }
 }
