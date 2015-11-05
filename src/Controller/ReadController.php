@@ -2,16 +2,22 @@
 
 namespace Sebaks\Crud\Controller;
 
+use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Controller\AbstractActionController;
-use T4webBase\Domain\Service\BaseFinder as Finder;
+use T4webDomainInterface\Infrastructure\RepositoryInterface;
 use Sebaks\Crud\View\Model\ReadViewModel;
 
 class ReadController extends AbstractActionController
 {
     /**
-     * @var Finder
+     * @var int
      */
-    private $finder;
+    private $id;
+
+    /**
+     * @var RepositoryInterface
+     */
+    private $repository;
 
     /**
      * @var ReadViewModel
@@ -20,28 +26,36 @@ class ReadController extends AbstractActionController
 
     /**
      * @param int $id
-     * @param Finder $finder
+     * @param RepositoryInterface $repository
      * @param ReadViewModel $viewModel
      */
     public function __construct(
-        Finder $finder,
+        $id,
+        RepositoryInterface $repository,
         ReadViewModel $viewModel)
     {
-        $this->finder = $finder;
+        $this->id = $id;
+        $this->repository = $repository;
         $this->viewModel = $viewModel;
     }
 
     /**
+     * Execute the request
+     *
+     * @param  MvcEvent $e
      * @return ReadViewModel
      */
-    public function indexAction()
+    public function onDispatch(MvcEvent $e)
     {
-        $entity = $this->finder->getById($this->params('id'));
+        $entity = $this->repository->findById($this->id);
+
         if (!$entity) {
             return $this->notFoundAction();
         }
 
         $this->viewModel->setEntity($entity);
+
+        $e->setResult($this->viewModel);
 
         return $this->viewModel;
     }
