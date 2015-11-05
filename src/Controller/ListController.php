@@ -2,9 +2,10 @@
 
 namespace Sebaks\Crud\Controller;
 
+use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Controller\AbstractActionController;
-use T4webBase\InputFilter\Filter;
-use T4webBase\Domain\Service\BaseFinder as Finder;
+use T4webFilter\FilterInterface;
+use T4webDomainInterface\Infrastructure\RepositoryInterface;
 use Sebaks\Crud\View\Model\ListViewModel;
 
 class ListController extends AbstractActionController
@@ -15,14 +16,14 @@ class ListController extends AbstractActionController
     private $query;
 
     /**
-     * @var Filter
+     * @var FilterInterface
      */
-    private $inputFilter;
+    private $filter;
 
     /**
-     * @var Finder
+     * @var RepositoryInterface
      */
-    private $finder;
+    private $repository;
 
     /**
      * @var ListViewModel
@@ -32,33 +33,39 @@ class ListController extends AbstractActionController
     /**
      * ListController constructor.
      * @param array $query
-     * @param Filter $inputFilter
-     * @param Finder $finder
+     * @param FilterInterface $filter
+     * @param RepositoryInterface $repository
      * @param ListViewModel $viewModel
      */
     public function __construct(
         array $query,
-        Filter $inputFilter,
-        Finder $finder,
+        FilterInterface $filter,
+        RepositoryInterface $repository,
         ListViewModel $viewModel
     )
     {
         $this->query = $query;
-        $this->inputFilter = $inputFilter;
-        $this->finder = $finder;
+        $this->filter = $filter;
+        $this->repository = $repository;
         $this->viewModel = $viewModel;
     }
 
     /**
+     * Execute the request
+     *
+     * @param  MvcEvent $e
      * @return ListViewModel
      */
-    public function indexAction()
+    public function onDispatch(MvcEvent $e)
     {
-        $query = $this->inputFilter->filter($this->query);
+        $filter = $this->filter->prepare($this->query);
 
-        $collection = $this->finder->findMany($query);
+        $criteria = $this->repository->createCriteria($filter);
+        $collection = $this->repository->findMany($criteria);
 
         $this->viewModel->setCollection($collection);
+
+        $e->setResult($this->viewModel);
 
         return $this->viewModel;
     }
