@@ -34,7 +34,7 @@ class CreateControllerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testCreateActionSuccess()
+    public function testOnDispatchSuccess()
     {
         $entityMock = $this->getMock('T4webDomainInterface\EntityInterface');
 
@@ -42,13 +42,16 @@ class CreateControllerTest extends \PHPUnit_Framework_TestCase
             ->with($this->data)
             ->willReturn($entityMock);
 
+        $this->eventMock->method('setResult')
+            ->with($this->view);
+
         $actualViewModel = $this->controller->onDispatch($this->eventMock);
 
         $this->assertSame($this->view, $actualViewModel);
         $this->assertSame($entityMock, $actualViewModel->getEntity());
     }
 
-    public function testCreateActionFail()
+    public function testOnDispatchFail()
     {
         $this->creatorMock->method('create')
             ->with($this->data)
@@ -56,6 +59,9 @@ class CreateControllerTest extends \PHPUnit_Framework_TestCase
 
         $this->creatorMock->method('getErrors')
             ->willReturn(['errorField' => 'error message']);
+
+        $this->eventMock->method('setResult')
+            ->with($this->view);
 
         $actualViewModel = $this->controller->onDispatch($this->eventMock);
 

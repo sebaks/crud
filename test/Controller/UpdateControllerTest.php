@@ -45,11 +45,13 @@ class UpdateControllerTest extends \PHPUnit_Framework_TestCase
             ->with($this->id, $this->data)
             ->willReturn($entityMock);
 
+        $this->eventMock->method('setResult')
+            ->with($this->view);
+
         $actualViewModel = $this->controller->onDispatch($this->eventMock);
 
         $this->assertSame($this->view, $actualViewModel);
         $this->assertSame($entityMock, $actualViewModel->getEntity());
-        $this->assertSame($this->data, $actualViewModel->getInputData());
     }
 
     public function testOnDispatchFail()
@@ -60,6 +62,9 @@ class UpdateControllerTest extends \PHPUnit_Framework_TestCase
 
         $this->updaterMock->method('getErrors')
             ->willReturn(['errorField' => 'error message']);
+
+        $this->eventMock->method('setResult')
+            ->with($this->view);
 
         $actualViewModel = $this->controller->onDispatch($this->eventMock);
 

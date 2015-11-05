@@ -3,7 +3,7 @@
 namespace Sebaks\Crud\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
-use T4webBase\Domain\Service\Delete as Deleter;
+use T4webDomainInterface\Service\DeleterInterface;
 use Sebaks\Crud\View\Model\DeleteViewModel;
 
 class DeleteController extends AbstractActionController
@@ -14,7 +14,7 @@ class DeleteController extends AbstractActionController
     private $id;
 
     /**
-     * @var Deleter
+     * @var DeleterInterface
      */
     private $deleter;
 
@@ -30,11 +30,16 @@ class DeleteController extends AbstractActionController
 
     /**
      * @param $id
-     * @param Deleter $deleter
+     * @param DeleterInterface $deleter
      * @param DeleteViewModel $viewModel
      * @param null $redirectTo
      */
-    public function __construct($id, Deleter $deleter, DeleteViewModel $viewModel, $redirectTo = null)
+    public function __construct(
+        $id,
+        DeleterInterface $deleter,
+        DeleteViewModel $viewModel,
+        $redirectTo = null
+    )
     {
         $this->id = $id;
         $this->deleter = $deleter;
@@ -47,22 +52,16 @@ class DeleteController extends AbstractActionController
      */
     public function indexAction()
     {
-        $isSuccess = $this->deleter->delete($this->id);
-        $entity = $this->deleter->getEntity();
+        $entity = $this->deleter->delete($this->id);
 
-        if ($isSuccess) {
+        if ($entity) {
             if ($this->redirectTo) {
                 return $this->redirect()->toRoute($this->redirectTo);
             }
 
             $this->viewModel->setEntity($entity);
         } else {
-            if (!$entity) {
-                return $this->notFoundAction();
-            }
-
-            $this->viewModel->setErrors($this->deleter->getErrors()->toArray());
-            $this->viewModel->setEntity($entity);
+            $this->viewModel->setErrors($this->deleter->getErrors());
         }
 
         return $this->viewModel;
