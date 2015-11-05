@@ -3,7 +3,7 @@
 namespace Sebaks\Crud\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
-use T4webBase\Domain\Service\NewCreate as Creator;
+use T4webDomainInterface\Service\CreatorInterface;
 use Sebaks\Crud\View\Model\CreateViewModel;
 
 class CreateController extends AbstractActionController
@@ -14,7 +14,7 @@ class CreateController extends AbstractActionController
     private $data;
 
     /**
-     * @var Creator
+     * @var CreatorInterface
      */
     private $creator;
 
@@ -30,13 +30,13 @@ class CreateController extends AbstractActionController
 
     /**
      * @param array $data
-     * @param Creator $creator
+     * @param CreatorInterface $creator
      * @param CreateViewModel $viewModel
      * @param null $redirectTo
      */
     public function __construct(
         array $data,
-        Creator $creator,
+        CreatorInterface $creator,
         CreateViewModel $viewModel,
         $redirectTo = null)
     {
@@ -59,7 +59,7 @@ class CreateController extends AbstractActionController
             }
             $this->viewModel->setEntity($entity);
         } else {
-            $this->viewModel->setErrors($this->creator->getMessages());
+            $this->viewModel->setErrors($this->creator->getErrors());
             $this->viewModel->setInputData($this->data);
         }
 
