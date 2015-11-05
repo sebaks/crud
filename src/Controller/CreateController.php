@@ -2,6 +2,7 @@
 
 namespace Sebaks\Crud\Controller;
 
+use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Controller\AbstractActionController;
 use T4webDomainInterface\Service\CreatorInterface;
 use Sebaks\Crud\View\Model\CreateViewModel;
@@ -47,9 +48,12 @@ class CreateController extends AbstractActionController
     }
 
     /**
+     * Execute the request
+     *
+     * @param  MvcEvent $e
      * @return CreateViewModel
      */
-    public function indexAction()
+    public function onDispatch(MvcEvent $e)
     {
         $entity = $this->creator->create($this->data);
 
@@ -62,6 +66,8 @@ class CreateController extends AbstractActionController
             $this->viewModel->setErrors($this->creator->getErrors());
             $this->viewModel->setInputData($this->data);
         }
+
+        $e->setResult($this->viewModel);
 
         return $this->viewModel;
     }
