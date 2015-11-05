@@ -11,6 +11,7 @@ class CreateControllerTest extends \PHPUnit_Framework_TestCase
     private $data;
     private $creatorMock;
     private $view;
+    private $eventMock;
 
     public function setUp()
     {
@@ -21,6 +22,8 @@ class CreateControllerTest extends \PHPUnit_Framework_TestCase
         $this->creatorMock = $this->getMockBuilder('T4webDomainInterface\Service\CreatorInterface')
             ->disableOriginalConstructor()
             ->getMock();
+
+        $this->eventMock = $this->getMock('Zend\Mvc\MvcEvent');
 
         $this->view = new CreateViewModel();
 
@@ -39,7 +42,7 @@ class CreateControllerTest extends \PHPUnit_Framework_TestCase
             ->with($this->data)
             ->willReturn($entityMock);
 
-        $actualViewModel = $this->controller->indexAction();
+        $actualViewModel = $this->controller->onDispatch($this->eventMock);
 
         $this->assertSame($this->view, $actualViewModel);
         $this->assertSame($entityMock, $actualViewModel->getEntity());
@@ -54,7 +57,7 @@ class CreateControllerTest extends \PHPUnit_Framework_TestCase
         $this->creatorMock->method('getErrors')
             ->willReturn(['errorField' => 'error message']);
 
-        $actualViewModel = $this->controller->indexAction();
+        $actualViewModel = $this->controller->onDispatch($this->eventMock);
 
         $this->assertSame($this->view, $actualViewModel);
         $this->assertNull($actualViewModel->getEntity());
