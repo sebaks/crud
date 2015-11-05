@@ -36,8 +36,8 @@ class CreateControllerTest extends \PHPUnit_Framework_TestCase
         $entityMock = $this->getMock('T4webDomainInterface\EntityInterface');
 
         $this->creatorMock->method('create')
-            ->with($this->equalTo($this->data))
-            ->will($this->returnValue($entityMock));
+            ->with($this->data)
+            ->willReturn($entityMock);
 
         $actualViewModel = $this->controller->indexAction();
 
@@ -48,11 +48,11 @@ class CreateControllerTest extends \PHPUnit_Framework_TestCase
     public function testCreateActionFail()
     {
         $this->creatorMock->method('create')
-            ->with($this->equalTo($this->data))
-            ->will($this->returnValue(null));
+            ->with($this->data)
+            ->willReturn(null);
 
         $this->creatorMock->method('getErrors')
-            ->will($this->returnValue(['errorField' => 'error message']));
+            ->willReturn(['errorField' => 'error message']);
 
         $actualViewModel = $this->controller->indexAction();
 
