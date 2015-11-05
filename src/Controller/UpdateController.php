@@ -2,8 +2,10 @@
 
 namespace Sebaks\Crud\Controller;
 
+use Zend\Mvc\MvcEvent;
+
 use Zend\Mvc\Controller\AbstractActionController;
-use T4webBase\Domain\Service\Update as Updater;
+use T4webDomainInterface\Service\UpdaterInterface;
 use Sebaks\Crud\View\Model\UpdateViewModel;
 
 class UpdateController extends AbstractActionController
@@ -19,7 +21,7 @@ class UpdateController extends AbstractActionController
     private $data;
 
     /**
-     * @var Updater
+     * @var UpdaterInterface
      */
     private $updater;
 
@@ -36,11 +38,17 @@ class UpdateController extends AbstractActionController
     /**
      * @param $id
      * @param array $data
-     * @param Updater $updater
+     * @param UpdaterInterface $updater
      * @param UpdateViewModel $viewModel
      * @param null $redirectTo
      */
-    public function __construct($id, array $data, Updater $updater, UpdateViewModel $viewModel, $redirectTo = null)
+    public function __construct(
+        $id,
+        array $data,
+        UpdaterInterface $updater,
+        UpdateViewModel $viewModel,
+        $redirectTo = null
+    )
     {
         $this->id = $id;
         $this->data = $data;
@@ -50,29 +58,27 @@ class UpdateController extends AbstractActionController
     }
 
     /**
-     * @return array|UpdateViewModel|\Zend\Http\Response
+     * Execute the request
+     *
+     * @param  MvcEvent $e
+     * @return UpdateViewModel|\Zend\Http\Response
      */
-    public function indexAction()
+    public function onDispatch(MvcEvent $e)
     {
-        $isSuccess = $this->updater->update($this->id, $this->data);
-        $entity = $this->updater->getEntity();
+        $entity = $this->updater->update($this->id, $this->data);
 
-        if ($isSuccess) {
+        if ($entity) {
             if ($this->redirectTo) {
                 return $this->redirect()->toRoute($this->redirectTo);
             }
 
-            $this->viewModel->setInputData($this->updater->getValues());
             $this->viewModel->setEntity($entity);
         } else {
-            if (!$entity) {
-                return $this->notFoundAction();
-            }
-
-            $this->viewModel->setErrors($this->updater->getErrors()->toArray());
+            $this->viewModel->setErrors($this->updater->getErrors());
             $this->viewModel->setInputData($this->data);
-            $this->viewModel->setEntity($entity);
         }
+
+        $e->setResult($this->viewModel);
 
         return $this->viewModel;
     }

@@ -51,7 +51,7 @@ class CreateController extends AbstractActionController
      * Execute the request
      *
      * @param  MvcEvent $e
-     * @return CreateViewModel
+     * @return CreateViewModel|\Zend\Http\Response
      */
     public function onDispatch(MvcEvent $e)
     {
@@ -61,6 +61,7 @@ class CreateController extends AbstractActionController
             if ($this->redirectTo) {
                 return $this->redirect()->toRoute($this->redirectTo);
             }
+
             $this->viewModel->setEntity($entity);
         } else {
             $this->viewModel->setErrors($this->creator->getErrors());

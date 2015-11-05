@@ -3,12 +3,12 @@
 namespace Sebaks\Crud\View\Model;
 
 use Zend\View\Model\ViewModel;
-use T4webBase\Domain\Entity;
+use T4webDomainInterface\EntityInterface;
 
 class UpdateViewModel extends ViewModel
 {
     /**
-     * @var Entity
+     * @var EntityInterface
      */
     private $entity;
 
@@ -23,7 +23,7 @@ class UpdateViewModel extends ViewModel
     private $inputData;
 
     /**
-     * @return Entity
+     * @return EntityInterface
      */
     public function getEntity()
     {
@@ -31,9 +31,9 @@ class UpdateViewModel extends ViewModel
     }
 
     /**
-     * @param Entity $entity
+     * @param EntityInterface $entity
      */
-    public function setEntity($entity)
+    public function setEntity(EntityInterface $entity)
     {
         $this->entity = $entity;
     }
