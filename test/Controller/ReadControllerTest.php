@@ -35,11 +35,11 @@ class ReadControllerTest extends \PHPUnit_Framework_TestCase
         $entityMock = $this->getMock('T4webDomainInterface\EntityInterface');
 
         $this->repositoryMock->method('findById')
-            ->with($this->equalTo($this->id))
+            ->with($this->id)
             ->willReturn($entityMock);
 
         $this->eventMock->method('setResult')
-            ->with($this->equalTo($this->view));
+            ->with($this->view);
 
         $actualViewModel = $this->controller->onDispatch($this->eventMock);
 
@@ -50,7 +50,7 @@ class ReadControllerTest extends \PHPUnit_Framework_TestCase
     public function testOnDispatchFail()
     {
         $this->repositoryMock->method('findById')
-            ->with($this->equalTo($this->id))
+            ->with($this->id)
             ->willReturn(null);
 
         $this->eventMock->method('getRouteMatch')
