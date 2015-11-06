@@ -2,6 +2,7 @@
 
 namespace Sebaks\Crud\Controller;
 
+use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Controller\AbstractActionController;
 use T4webDomainInterface\Service\DeleterInterface;
 use Sebaks\Crud\View\Model\DeleteViewModel;
@@ -48,9 +49,12 @@ class DeleteController extends AbstractActionController
     }
 
     /**
-     * @return DeleteViewModel|\Zend\Http\Response
+     * Execute the request
+     *
+     * @param  MvcEvent $e
+     * @return UpdateViewModel|\Zend\Http\Response
      */
-    public function indexAction()
+    public function onDispatch(MvcEvent $e)
     {
         $entity = $this->deleter->delete($this->id);
 
