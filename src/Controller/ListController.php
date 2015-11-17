@@ -6,7 +6,7 @@ use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Controller\AbstractActionController;
 use T4webFilter\FilterInterface;
 use T4webDomainInterface\Infrastructure\RepositoryInterface;
-use Sebaks\Crud\View\Model\ListViewModel;
+use Sebaks\Crud\View\Model\ListViewModelInterface;
 
 class ListController extends AbstractActionController
 {
@@ -26,7 +26,7 @@ class ListController extends AbstractActionController
     private $repository;
 
     /**
-     * @var ListViewModel
+     * @var ListViewModelInterface
      */
     private $viewModel;
 
@@ -35,13 +35,13 @@ class ListController extends AbstractActionController
      * @param array $query
      * @param FilterInterface $filter
      * @param RepositoryInterface $repository
-     * @param ListViewModel $viewModel
+     * @param ListViewModelInterface $viewModel
      */
     public function __construct(
         array $query,
         FilterInterface $filter,
         RepositoryInterface $repository,
-        ListViewModel $viewModel
+        ListViewModelInterface $viewModel
     )
     {
         $this->query = $query;
@@ -54,7 +54,7 @@ class ListController extends AbstractActionController
      * Execute the request
      *
      * @param  MvcEvent $e
-     * @return ListViewModel
+     * @return ListViewModelInterface
      */
     public function onDispatch(MvcEvent $e)
     {

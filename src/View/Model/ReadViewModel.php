@@ -5,7 +5,7 @@ namespace Sebaks\Crud\View\Model;
 use Zend\View\Model\ViewModel;
 use T4webDomainInterface\EntityInterface;
 
-class ReadViewModel extends ViewModel
+class ReadViewModel extends ViewModel implements ReadViewModelInterface
 {
     /**
      * @var EntityInterface

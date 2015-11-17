@@ -5,7 +5,7 @@ namespace Sebaks\Crud\View\Model;
 use Zend\View\Model\ViewModel;
 use T4webDomainInterface\EntityInterface;
 
-class UpdateViewModel extends ViewModel
+class UpdateViewModel extends ViewModel implements UpdateViewModelInterface
 {
     /**
      * @var EntityInterface
@@ -49,7 +49,7 @@ class UpdateViewModel extends ViewModel
     /**
      * @param array $errors
      */
-    public function setErrors($errors)
+    public function setErrors(array $errors)
     {
         $this->errors = $errors;
     }
@@ -65,7 +65,7 @@ class UpdateViewModel extends ViewModel
     /**
      * @param array $inputData
      */
-    public function setInputData($inputData)
+    public function setInputData(array $inputData)
     {
         $this->inputData = $inputData;
     }

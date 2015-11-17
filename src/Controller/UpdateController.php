@@ -6,7 +6,7 @@ use Zend\Mvc\MvcEvent;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use T4webDomainInterface\Service\UpdaterInterface;
-use Sebaks\Crud\View\Model\UpdateViewModel;
+use Sebaks\Crud\View\Model\UpdateViewModelInterface;
 
 class UpdateController extends AbstractActionController
 {
@@ -26,7 +26,7 @@ class UpdateController extends AbstractActionController
     private $updater;
 
     /**
-     * @var UpdateViewModel
+     * @var UpdateViewModelInterface
      */
     private $viewModel;
 
@@ -39,14 +39,14 @@ class UpdateController extends AbstractActionController
      * @param $id
      * @param array $data
      * @param UpdaterInterface $updater
-     * @param UpdateViewModel $viewModel
+     * @param UpdateViewModelInterface $viewModel
      * @param null $redirectTo
      */
     public function __construct(
         $id,
         array $data,
         UpdaterInterface $updater,
-        UpdateViewModel $viewModel,
+        UpdateViewModelInterface $viewModel,
         $redirectTo = null
     )
     {
@@ -61,7 +61,7 @@ class UpdateController extends AbstractActionController
      * Execute the request
      *
      * @param  MvcEvent $e
-     * @return UpdateViewModel|\Zend\Http\Response
+     * @return UpdateViewModelInterface|\Zend\Http\Response
      */
     public function onDispatch(MvcEvent $e)
     {
