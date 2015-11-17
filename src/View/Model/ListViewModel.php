@@ -3,17 +3,17 @@
 namespace Sebaks\Crud\View\Model;
 
 use Zend\View\Model\ViewModel;
-use T4webBase\Domain\Collection;
+use ArrayObject;
 
-class ListViewModel extends ViewModel
+class ListViewModel extends ViewModel implements ListViewModelInterface
 {
     /**
-     * @var Collection
+     * @var ArrayObject
      */
     private $collection;
 
     /**
-     * @return Collection
+     * @return ArrayObject
      */
     public function getCollection()
     {
@@ -21,9 +21,9 @@ class ListViewModel extends ViewModel
     }
 
     /**
-     * @param Collection $collection
+     * @param ArrayObject $collection
      */
-    public function setCollection($collection)
+    public function setCollection(ArrayObject $collection)
     {
         $this->collection = $collection;
     }

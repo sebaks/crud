@@ -5,7 +5,7 @@ namespace Sebaks\Crud\Controller;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Controller\AbstractActionController;
 use T4webDomainInterface\Service\DeleterInterface;
-use Sebaks\Crud\View\Model\DeleteViewModel;
+use Sebaks\Crud\View\Model\DeleteViewModelInterface;
 
 class DeleteController extends AbstractActionController
 {
@@ -20,7 +20,7 @@ class DeleteController extends AbstractActionController
     private $deleter;
 
     /**
-     * @var DeleteViewModel
+     * @var DeleteViewModelInterface
      */
     private $viewModel;
 
@@ -32,13 +32,13 @@ class DeleteController extends AbstractActionController
     /**
      * @param $id
      * @param DeleterInterface $deleter
-     * @param DeleteViewModel $viewModel
+     * @param DeleteViewModelInterface $viewModel
      * @param null $redirectTo
      */
     public function __construct(
         $id,
         DeleterInterface $deleter,
-        DeleteViewModel $viewModel,
+        DeleteViewModelInterface $viewModel,
         $redirectTo = null
     )
     {
@@ -52,7 +52,7 @@ class DeleteController extends AbstractActionController
      * Execute the request
      *
      * @param  MvcEvent $e
-     * @return UpdateViewModel|\Zend\Http\Response
+     * @return DeleteViewModelInterface|\Zend\Http\Response
      */
     public function onDispatch(MvcEvent $e)
     {
