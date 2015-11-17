@@ -5,7 +5,7 @@ namespace Sebaks\Crud\Controller;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Controller\AbstractActionController;
 use T4webDomainInterface\Service\CreatorInterface;
-use Sebaks\Crud\View\Model\CreateViewModel;
+use Sebaks\Crud\View\Model\CreateViewModelInterface;
 
 class CreateController extends AbstractActionController
 {
@@ -20,7 +20,7 @@ class CreateController extends AbstractActionController
     private $creator;
 
     /**
-     * @var CreateViewModel
+     * @var CreateViewModelInterface
      */
     private $viewModel;
 
@@ -32,13 +32,13 @@ class CreateController extends AbstractActionController
     /**
      * @param array $data
      * @param CreatorInterface $creator
-     * @param CreateViewModel $viewModel
+     * @param CreateViewModelInterface $viewModel
      * @param null $redirectTo
      */
     public function __construct(
         array $data,
         CreatorInterface $creator,
-        CreateViewModel $viewModel,
+        CreateViewModelInterface $viewModel,
         $redirectTo = null)
     {
         $this->data = $data;
@@ -51,7 +51,7 @@ class CreateController extends AbstractActionController
      * Execute the request
      *
      * @param  MvcEvent $e
-     * @return CreateViewModel|\Zend\Http\Response
+     * @return CreateViewModelInterface|\Zend\Http\Response
      */
     public function onDispatch(MvcEvent $e)
     {

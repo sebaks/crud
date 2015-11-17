@@ -3,12 +3,12 @@
 namespace Sebaks\Crud\View\Model;
 
 use Zend\View\Model\ViewModel;
-use T4webBase\Domain\Entity;
+use T4webDomainInterface\EntityInterface;
 
-class DeleteViewModel extends ViewModel
+class DeleteViewModel extends ViewModel implements DeleteViewModelInterface
 {
     /**
-     * @var Entity
+     * @var EntityInterface
      */
     private $entity;
 
@@ -18,7 +18,7 @@ class DeleteViewModel extends ViewModel
     private $errors;
 
     /**
-     * @return Entity
+     * @return EntityInterface
      */
     public function getEntity()
     {
@@ -26,9 +26,9 @@ class DeleteViewModel extends ViewModel
     }
 
     /**
-     * @param Entity $entity
+     * @param EntityInterface $entity
      */
-    public function setEntity($entity)
+    public function setEntity(EntityInterface $entity)
     {
         $this->entity = $entity;
     }
@@ -44,7 +44,7 @@ class DeleteViewModel extends ViewModel
     /**
      * @param array $errors
      */
-    public function setErrors($errors)
+    public function setErrors(array $errors)
     {
         $this->errors = $errors;
     }

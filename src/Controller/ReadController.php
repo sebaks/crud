@@ -5,7 +5,7 @@ namespace Sebaks\Crud\Controller;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Controller\AbstractActionController;
 use T4webDomainInterface\Infrastructure\RepositoryInterface;
-use Sebaks\Crud\View\Model\ReadViewModel;
+use Sebaks\Crud\View\Model\ReadViewModelInterface;
 
 class ReadController extends AbstractActionController
 {
@@ -20,19 +20,19 @@ class ReadController extends AbstractActionController
     private $repository;
 
     /**
-     * @var ReadViewModel
+     * @var ReadViewModelInterface
      */
     private $viewModel;
 
     /**
      * @param int $id
      * @param RepositoryInterface $repository
-     * @param ReadViewModel $viewModel
+     * @param ReadViewModelInterface $viewModel
      */
     public function __construct(
         $id,
         RepositoryInterface $repository,
-        ReadViewModel $viewModel)
+        ReadViewModelInterface $viewModel)
     {
         $this->id = $id;
         $this->repository = $repository;
@@ -43,7 +43,7 @@ class ReadController extends AbstractActionController
      * Execute the request
      *
      * @param  MvcEvent $e
-     * @return ReadViewModel
+     * @return ReadViewModelInterface
      */
     public function onDispatch(MvcEvent $e)
     {
