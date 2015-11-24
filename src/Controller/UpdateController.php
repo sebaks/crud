@@ -67,18 +67,22 @@ class UpdateController extends AbstractActionController
     {
         $entity = $this->updater->update($this->id, $this->data);
 
-        if ($entity) {
-            if ($this->redirectTo) {
-                return $this->redirect()->toRoute($this->redirectTo);
-            }
-
-            $this->viewModel->setEntity($entity);
-        } else {
-            $this->viewModel->setErrors($this->updater->getErrors());
-            $this->viewModel->setInputData($this->data);
+        if (!$entity) {
+            return $this->notFoundAction();
         }
 
+        $this->viewModel->setEntity($entity);
         $e->setResult($this->viewModel);
+
+        if ($this->updater->hasErrors()) {
+            $this->viewModel->setErrors($this->updater->getErrors());
+            $this->viewModel->setInputData($this->data);
+            return $this->viewModel;
+        }
+
+        if ($this->redirectTo) {
+            return $this->redirect()->toRoute($this->redirectTo);
+        }
 
         return $this->viewModel;
     }
