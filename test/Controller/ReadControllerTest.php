@@ -53,8 +53,8 @@ class ReadControllerTest extends \PHPUnit_Framework_TestCase
             ->with($this->id)
             ->willReturn(null);
 
-        $this->eventMock->method('setResult')
-            ->with($this->view);
+        $this->eventMock->expects($this->never())
+            ->method('setResult');
 
         $this->eventMock->method('getRouteMatch')
             ->willReturn($this->getMockBuilder('Zend\Mvc\Router\RouteMatch')

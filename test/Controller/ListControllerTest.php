@@ -46,7 +46,7 @@ class ListControllerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($listViewModel, $actualViewModel);
         $this->assertSame($collection, $actualViewModel->getCollection());
-        $this->assertSame($collection, $actualViewModel->getCollection());
+        $this->assertSame($filter, $actualViewModel->getFilter());
     }
 
 }

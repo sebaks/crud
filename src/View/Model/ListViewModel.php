@@ -13,6 +13,11 @@ class ListViewModel extends ViewModel implements ListViewModelInterface
     private $collection;
 
     /**
+     * @var array
+     */
+    private $filter;
+
+    /**
      * @return ArrayObject
      */
     public function getCollection()
@@ -26,5 +31,21 @@ class ListViewModel extends ViewModel implements ListViewModelInterface
     public function setCollection(ArrayObject $collection)
     {
         $this->collection = $collection;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFilter()
+    {
+        return $this->filter;
+    }
+
+    /**
+     * @param array $filter
+     */
+    public function setFilter(array $filter)
+    {
+        $this->filter = $filter;
     }
 }

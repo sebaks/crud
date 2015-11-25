@@ -55,17 +55,20 @@ class DeleteControllerTest extends \PHPUnit_Framework_TestCase
             ->with($this->id)
             ->willReturn(null);
 
-        $this->deleterMock->method('getErrors')
-            ->willReturn(['errorField' => 'error message']);
+        $this->eventMock->expects($this->never())
+            ->method('setResult');
 
-        $this->eventMock->method('setResult')
-            ->with($this->view);
+        $this->eventMock->method('getRouteMatch')
+            ->willReturn($this->getMockBuilder('Zend\Mvc\Router\RouteMatch')
+                ->setMethods(['setParam'])
+                ->disableOriginalConstructor()
+                ->getMock());
+
+        $this->controller->setEvent($this->eventMock);
 
         $actualViewModel = $this->controller->onDispatch($this->eventMock);
 
-        $this->assertSame($this->view, $actualViewModel);
-        $this->assertNull($actualViewModel->getEntity());
-        $this->assertEquals(['errorField' => 'error message'], $actualViewModel->getErrors());
+        $this->assertInstanceOf('Zend\View\Model\ViewModel', $actualViewModel);
     }
 
 }

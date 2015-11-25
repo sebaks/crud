@@ -16,4 +16,14 @@ interface ListViewModelInterface extends ModelInterface
      * @param ArrayObject $collection
      */
     public function setCollection(ArrayObject $collection);
+
+    /**
+     * @return array
+     */
+    public function getFilter();
+
+    /**
+     * @param array $filter
+     */
+    public function setFilter(array $filter);
 }
