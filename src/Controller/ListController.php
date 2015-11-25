@@ -64,7 +64,8 @@ class ListController extends AbstractActionController
         $collection = $this->repository->findMany($criteria);
 
         $this->viewModel->setCollection($collection);
-        $this->viewModel->setFilter($filter;
+        $this->viewModel->setFilter($filter)
+        ;
 
         $e->setResult($this->viewModel);
 
