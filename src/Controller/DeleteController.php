@@ -67,6 +67,8 @@ class DeleteController extends AbstractActionController
         }
 
         $this->viewModel->setEntity($entity);
+        
+        $e->setResult($this->viewModel);
 
         return $this->viewModel;
     }
