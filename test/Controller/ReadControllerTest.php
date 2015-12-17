@@ -8,15 +8,14 @@ use Sebaks\Crud\View\Model\ReadViewModel;
 class ReadControllerTest extends \PHPUnit_Framework_TestCase
 {
     private $controller;
-    private $id;
+    private $criteriaMock;
     private $repositoryMock;
     private $view;
     private $eventMock;
 
     public function setUp()
     {
-        $this->id = 22;
-
+        $this->criteriaMock = $this->getMock('T4webDomainInterface\Infrastructure\CriteriaInterface');
         $this->repositoryMock = $this->getMock('T4webDomainInterface\Infrastructure\RepositoryInterface');
 
         $this->eventMock = $this->getMock('Zend\Mvc\MvcEvent');
@@ -24,7 +23,7 @@ class ReadControllerTest extends \PHPUnit_Framework_TestCase
         $this->view = new ReadViewModel();
 
         $this->controller = new ReadController(
-            $this->id,
+            $this->criteriaMock,
             $this->repositoryMock,
             $this->view
         );
@@ -34,8 +33,8 @@ class ReadControllerTest extends \PHPUnit_Framework_TestCase
     {
         $entityMock = $this->getMock('T4webDomainInterface\EntityInterface');
 
-        $this->repositoryMock->method('findById')
-            ->with($this->id)
+        $this->repositoryMock->method('find')
+            ->with($this->criteriaMock)
             ->willReturn($entityMock);
 
         $this->eventMock->method('setResult')
@@ -49,8 +48,8 @@ class ReadControllerTest extends \PHPUnit_Framework_TestCase
 
     public function testOnDispatchFail()
     {
-        $this->repositoryMock->method('findById')
-            ->with($this->id)
+        $this->repositoryMock->method('find')
+            ->with($this->criteriaMock)
             ->willReturn(null);
 
         $this->eventMock->expects($this->never())
