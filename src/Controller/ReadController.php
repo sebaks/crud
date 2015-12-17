@@ -4,15 +4,16 @@ namespace Sebaks\Crud\Controller;
 
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Controller\AbstractActionController;
+use T4webDomainInterface\Infrastructure\CriteriaInterface;
 use T4webDomainInterface\Infrastructure\RepositoryInterface;
 use Sebaks\Crud\View\Model\ReadViewModelInterface;
 
 class ReadController extends AbstractActionController
 {
     /**
-     * @var int
+     * @var CriteriaInterface
      */
-    private $id;
+    private $criteria;
 
     /**
      * @var RepositoryInterface
@@ -25,16 +26,16 @@ class ReadController extends AbstractActionController
     private $viewModel;
 
     /**
-     * @param int $id
+     * @param CriteriaInterface $criteria
      * @param RepositoryInterface $repository
      * @param ReadViewModelInterface $viewModel
      */
     public function __construct(
-        $id,
+        CriteriaInterface $criteria,
         RepositoryInterface $repository,
         ReadViewModelInterface $viewModel)
     {
-        $this->id = $id;
+        $this->criteria = $criteria;
         $this->repository = $repository;
         $this->viewModel = $viewModel;
     }
@@ -47,7 +48,7 @@ class ReadController extends AbstractActionController
      */
     public function onDispatch(MvcEvent $e)
     {
-        $entity = $this->repository->findById($this->id);
+        $entity = $this->repository->find($this->criteria);
 
         if (!$entity) {
             return $this->notFoundAction();
