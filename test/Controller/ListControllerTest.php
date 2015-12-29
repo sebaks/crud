@@ -13,20 +13,14 @@ class ListControllerTest extends \PHPUnit_Framework_TestCase
         $filter = $query;
         $collection = new \ArrayObject();
 
-        $filterMock = $this->getMock('T4webFilter\FilterInterface');
-
-        $filterMock->method('prepare')
-            ->with($query)
-            ->willReturn($filter);
-
-        $finderMock = $this->getMock('T4webDomainInterface\Infrastructure\RepositoryInterface');
+        $repositoryMock = $this->getMock('T4webDomainInterface\Infrastructure\RepositoryInterface');
         $criteriaMock = $this->getMock('T4webDomainInterface\Infrastructure\CriteriaInterface');
 
-        $finderMock->method('createCriteria')
+        $repositoryMock->method('createCriteria')
             ->with($filter)
             ->willReturn($criteriaMock);
 
-        $finderMock->method('findMany')
+        $repositoryMock->method('findMany')
             ->with($criteriaMock)
             ->willReturn($collection);
 
@@ -38,15 +32,13 @@ class ListControllerTest extends \PHPUnit_Framework_TestCase
 
         $controller = new ListController(
             $query,
-            $filterMock,
-            $finderMock,
+            $repositoryMock,
             $listViewModel
         );
         $actualViewModel = $controller->onDispatch($eventMock);
 
         $this->assertSame($listViewModel, $actualViewModel);
         $this->assertSame($collection, $actualViewModel->getCollection());
-        $this->assertSame($filter, $actualViewModel->getFilter());
+        $this->assertSame($filter, $actualViewModel->getInputData());
     }
-
 }

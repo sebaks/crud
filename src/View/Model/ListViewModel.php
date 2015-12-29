@@ -15,6 +15,11 @@ class ListViewModel extends ViewModel implements ListViewModelInterface
     /**
      * @var array
      */
+    private $errors;
+
+    /**
+     * @var array
+     */
     private $filter;
 
     /**
@@ -36,7 +41,23 @@ class ListViewModel extends ViewModel implements ListViewModelInterface
     /**
      * @return array
      */
-    public function getFilter()
+    public function getErrors()
+    {
+        return $this->errors;
+    }
+
+    /**
+     * @param array $errors
+     */
+    public function setErrors(array $errors)
+    {
+        $this->errors = $errors;
+    }
+
+    /**
+     * @return array
+     */
+    public function getInputData()
     {
         return $this->filter;
     }
@@ -44,7 +65,7 @@ class ListViewModel extends ViewModel implements ListViewModelInterface
     /**
      * @param array $filter
      */
-    public function setFilter(array $filter)
+    public function setInputData(array $filter)
     {
         $this->filter = $filter;
     }

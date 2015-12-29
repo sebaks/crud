@@ -4,7 +4,7 @@ namespace Sebaks\Crud\Controller;
 
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Controller\AbstractActionController;
-use T4webFilter\FilterInterface;
+use Zend\InputFilter\InputFilterInterface;
 use T4webDomainInterface\Infrastructure\RepositoryInterface;
 use Sebaks\Crud\View\Model\ListViewModelInterface;
 
@@ -16,9 +16,9 @@ class ListController extends AbstractActionController
     private $query;
 
     /**
-     * @var FilterInterface
+     * @var InputFilterInterface
      */
-    private $filter;
+    private $inputFilter;
 
     /**
      * @var RepositoryInterface
@@ -33,21 +33,21 @@ class ListController extends AbstractActionController
     /**
      * ListController constructor.
      * @param array $query
-     * @param FilterInterface $filter
+     * @param InputFilterInterface $inputFilter
      * @param RepositoryInterface $repository
      * @param ListViewModelInterface $viewModel
      */
     public function __construct(
         array $query,
-        FilterInterface $filter,
         RepositoryInterface $repository,
-        ListViewModelInterface $viewModel
+        ListViewModelInterface $viewModel,
+        InputFilterInterface $inputFilter = null
     )
     {
         $this->query = $query;
-        $this->filter = $filter;
         $this->repository = $repository;
         $this->viewModel = $viewModel;
+        $this->inputFilter = $inputFilter;
     }
 
     /**
@@ -58,13 +58,27 @@ class ListController extends AbstractActionController
      */
     public function onDispatch(MvcEvent $e)
     {
-        $filter = $this->filter->prepare($this->query);
+        if ($this->inputFilter) {
+            $this->inputFilter->setData($this->query);
+            if ($this->inputFilter->isValid()) {
+                $validData = $this->inputFilter->getValues();
 
-        $criteria = $this->repository->createCriteria($filter);
-        $collection = $this->repository->findMany($criteria);
+                $criteria = $this->repository->createCriteria($validData);
+                $collection = $this->repository->findMany($criteria);
 
-        $this->viewModel->setCollection($collection);
-        $this->viewModel->setFilter($filter);
+                $this->viewModel->setCollection($collection);
+                $this->viewModel->setInputData($validData);
+            } else {
+                $this->viewModel->setErrors($this->inputFilter->getMessages());
+                $this->viewModel->setInputData($this->query);
+            }
+        } else {
+            $criteria = $this->repository->createCriteria($this->query);
+            $collection = $this->repository->findMany($criteria);
+
+            $this->viewModel->setCollection($collection);
+            $this->viewModel->setInputData($this->query);
+        }
 
         $e->setResult($this->viewModel);
 

@@ -20,10 +20,20 @@ interface ListViewModelInterface extends ModelInterface
     /**
      * @return array
      */
-    public function getFilter();
+    public function getErrors();
+
+    /**
+     * @param array $errors
+     */
+    public function setErrors(array $errors);
+
+    /**
+     * @return array
+     */
+    public function getInputData();
 
     /**
      * @param array $filter
      */
-    public function setFilter(array $filter);
+    public function setInputData(array $filter);
 }
