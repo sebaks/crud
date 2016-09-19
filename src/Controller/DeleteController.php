@@ -62,6 +62,15 @@ class DeleteController extends AbstractActionController
             return $this->notFoundAction();
         }
         
+        $this->viewModel->setEntity($entity);
+        $e->setResult($this->viewModel);
+
+        if ($this->deleter->hasErrors()) {
+            $this->viewModel->setErrors($this->deleter->getErrors());
+            $this->viewModel->setInputData([$this->id]);
+            return $this->viewModel;
+        }
+        
         if ($this->redirectTo) {
             return $this->redirect()->toRoute($this->redirectTo);
         }
